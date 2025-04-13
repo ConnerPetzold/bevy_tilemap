@@ -1,0 +1,20 @@
+[package]
+name = "bevy_tilemap"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bevy = { version = "0.16.0-rc.4", default-features = false, features = [
+  "bevy_core_pipeline",
+  "bevy_render",
+  "bevy_asset",
+  "bevy_sprite",
+] }
+
+[dev-dependencies]
+bevy = { version = "0.16.0-rc.4", features = ["bevy_remote"] }
+
+
+[[example]]
+name = "basic"
+path = "examples/basic.rs"
