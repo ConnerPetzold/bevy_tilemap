@@ -15,8 +15,15 @@ struct TilemapChunkMaterial {
 fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     let chunk_dimensions = vec2<f32>(textureDimensions(indices));
     let tile_uv = mesh.uv * chunk_dimensions;
-    let tile_pos = vec2<i32>(floor(tile_uv));
-    let tile_index = textureLoad(indices, tile_pos, 0).r;
+    let tile_pos = clamp(vec2<u32>(floor(tile_uv)), vec2<u32>(0), vec2<u32>(chunk_dimensions - 1));
+    var tile_index = textureLoad(indices, tile_pos, 0).r;
+    
+    if tile_index == 0 {
+        discard;
+    }
+
+    tile_index -= 1;    
+
     let local_uv = fract(tile_uv);
 
     let atlas_dimensions = vec2<f32>(textureDimensions(atlas));

@@ -1,13 +1,19 @@
+#![deny(missing_docs)]
+#![doc = include_str!("../README.md")]
+
 use bevy::{asset::load_internal_asset, prelude::*, sprite::Material2dPlugin};
 
 mod chunk;
 mod tile;
 mod tilemap;
 
-use chunk::{TILEMAP_CHUNK_MATERIAL_SHADER_HANDLE, TilemapChunkMaterial, update_chunks};
+pub use chunk::*;
 pub use tile::*;
 pub use tilemap::*;
 
+/// A Bevy plugin that provides tilemap functionality.
+/// This plugin adds the necessary systems and resources for managing and rendering tilemaps.
+#[derive(Default)]
 pub struct TilemapPlugin;
 
 impl Plugin for TilemapPlugin {
@@ -28,7 +34,8 @@ impl Plugin for TilemapPlugin {
     }
 }
 
+/// A prelude module that re-exports all public items from the crate.
+/// This is useful for importing all commonly used items at once.
 pub mod prelude {
     pub use super::*;
-    // pub use super::{Tile, Tilemap};
 }
