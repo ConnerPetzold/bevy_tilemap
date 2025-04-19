@@ -1,15 +1,17 @@
 #![deny(missing_docs)]
 #![doc = include_str!("../README.md")]
 
-use bevy::{asset::load_internal_asset, prelude::*, sprite::Material2dPlugin};
+use bevy::prelude::*;
 
 mod chunk;
 mod tile;
 mod tilemap;
+mod tileset;
 
 pub use chunk::*;
 pub use tile::*;
 pub use tilemap::*;
+pub use tileset::*;
 
 /// A Bevy plugin that provides tilemap functionality.
 /// This plugin adds the necessary systems and resources for managing and rendering tilemaps.
@@ -18,18 +20,11 @@ pub struct TilemapPlugin;
 
 impl Plugin for TilemapPlugin {
     fn build(&self, app: &mut App) {
-        load_internal_asset!(
-            app,
-            TILEMAP_CHUNK_MATERIAL_SHADER_HANDLE,
-            "chunk.wgsl",
-            Shader::from_wgsl
-        );
-
-        app.add_plugins(Material2dPlugin::<TilemapChunkMaterial>::default())
+        app.init_asset_loader::<TilesetImageLoader>()
+            .init_asset::<TilesetImage>()
             .register_type::<TileOf>()
             .register_type::<Tilemap>()
             .register_type::<TilemapTiles>()
-            .register_type::<TilemapTexture>()
             .add_systems(Update, update_chunks);
     }
 }

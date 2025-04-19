@@ -1,4 +1,4 @@
-use bevy::{platform_support::collections::HashMap, prelude::*};
+use bevy::{platform::collections::HashMap, prelude::*};
 
 use crate::{
     TileOf, TilePosition,
@@ -31,6 +31,16 @@ impl Default for Tilemap {
     }
 }
 
+impl Tilemap {
+    /// Creates a new Tilemap with the given tile size.
+    pub fn from_tile_size(tile_size: u32) -> Self {
+        Self {
+            tile_size,
+            ..default()
+        }
+    }
+}
+
 /// Stores all tiles in a tilemap.
 /// Maintains a mapping between tile positions and their entities.
 #[derive(Component, Deref, DerefMut, Default, Reflect)]
@@ -57,16 +67,8 @@ pub struct TilemapChunks {
     lookup: HashMap<TilemapChunkPosition, Entity>,
 }
 
-/// Defines the texture used by a tilemap.
-#[derive(Component, Clone, Debug, Reflect)]
+/// Defines the tileset used by a tilemap.
+/// Must be an array image where the dimensions are the tile dimensions.
+#[derive(Component, Clone, Debug, Default, Reflect)]
 #[reflect(Component)]
-pub enum TilemapTexture {
-    /// Texture atlas containing all tile textures
-    Atlas(Handle<Image>),
-}
-
-impl Default for TilemapTexture {
-    fn default() -> Self {
-        Self::Atlas(default())
-    }
-}
+pub struct Tileset(pub Handle<Image>);

@@ -26,6 +26,17 @@ impl TilePosition {
     pub fn chunk_position(&self, chunk_size: u32) -> TilemapChunkPosition {
         TilemapChunkPosition(self.div_euclid(IVec2::splat(chunk_size as i32)))
     }
+
+    /// Calculates the position of the tile in the chunk, in pixel coordinates.
+    pub fn position_in_chunk(&self, chunk_size: u32) -> UVec2 {
+        self.rem_euclid(IVec2::splat(chunk_size as i32)).as_uvec2()
+    }
+
+    /// Calculates the index of the tile in the chunk.
+    pub fn index_in_chunk(&self, chunk_size: u32) -> usize {
+        let UVec2 { x, y } = self.position_in_chunk(chunk_size);
+        (x + (chunk_size - 1 - y) * chunk_size) as usize
+    }
 }
 
 /// Stores the tilemap entity that this tile belongs to.

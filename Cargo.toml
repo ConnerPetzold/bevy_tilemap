@@ -5,17 +5,22 @@ edition = "2024"
 rust-version = "1.85.0"
 
 [dependencies]
-bevy = { version = "0.16.0-rc", default-features = false, features = [
+bevy = { git = "https://github.com/ConnerPetzold/bevy", branch = "tilemap-chunk-rendering", default-features = false, features = [
   "bevy_core_pipeline",
   "bevy_render",
   "bevy_asset",
   "bevy_sprite",
 ] }
 bytemuck = "1.22.0"
+serde = "1.0.219"
+thiserror = "2.0.12"
 
 [dev-dependencies]
-bevy = { version = "0.16.0-rc", features = ["bevy_remote", "bevy_dev_tools"] }
-bevy_pancam = { git = "https://github.com/cpetzold/bevy_pancam", branch = "bevy-0.16" }
+bevy = { git = "https://github.com/ConnerPetzold/bevy", branch = "tilemap-chunk-rendering", features = [
+  "bevy_remote",
+  "bevy_dev_tools",
+] }
+bevy_pancam = { path = "../bevy_pancam" }
 rand = "0.9.0"
 
 [[example]]

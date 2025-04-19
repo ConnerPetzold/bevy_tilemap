@@ -1,60 +1,24 @@
 use bevy::{
-    asset::{RenderAssetUsages, weak_handle},
-    platform_support::collections::HashMap,
+    platform::collections::HashMap,
     prelude::*,
-    render::render_resource::{AsBindGroup, Extent3d, ShaderRef, TextureDimension, TextureFormat},
-    sprite::Material2d,
+    sprite::{TilemapChunk, TilemapChunkIndices},
 };
 
 use crate::{
-    Tile, TileOf, TilePosition, TileTextureIndex, Tilemap, TilemapChunks, TilemapTexture,
-    TilemapTiles,
+    Tile, TileOf, TilePosition, TileTextureIndex, Tilemap, TilemapChunks, TilemapTiles, Tileset,
 };
 
-/// Shader used for rendering tilemap chunks
-pub const TILEMAP_CHUNK_MATERIAL_SHADER_HANDLE: Handle<Shader> =
-    weak_handle!("40f33e62-82f8-4578-b3fa-f22989e7c4bb");
-
-/// Marker component for tilemap chunks.
-#[derive(Component, Clone, Debug)]
-#[require(TilemapChunkPosition, Transform, Visibility, Mesh2d, MeshMaterial2d<TilemapChunkMaterial>)]
-pub struct TilemapChunk;
+/// Stores the tilemap entity that the chunk belongs to
+#[derive(Component, Clone, Debug, Reflect)]
+#[require(TilemapChunkPosition, TilemapChunk)]
+#[relationship(relationship_target = TilemapChunks)]
+#[reflect(Component)]
+pub struct TilemapChunkOf(pub Entity);
 
 /// Position of the chunk in the tilemap in chunk coordinates (not pixel or tile coordinates)
 #[derive(Component, Clone, Copy, Debug, Default, Deref, DerefMut, Reflect, PartialEq, Eq, Hash)]
 #[reflect(Component)]
 pub struct TilemapChunkPosition(pub IVec2);
-
-/// Stores the tilemap entity that the chunk belongs to
-#[derive(Component, Clone, Debug, Reflect)]
-#[relationship(relationship_target = TilemapChunks)]
-#[reflect(Component)]
-pub struct TilemapChunkOf(pub Entity);
-
-/// A material used for rendering tilemap chunks.
-/// This material contains the necessary textures and uniforms for rendering
-/// the tiles within a chunk.
-#[derive(Asset, TypePath, AsBindGroup, Debug, Clone)]
-pub struct TilemapChunkMaterial {
-    /// The size of each tile in pixels
-    #[uniform(0)]
-    pub tile_size: u32,
-
-    /// The texture atlas
-    #[texture(1)]
-    #[sampler(2)]
-    pub atlas: Option<Handle<Image>>,
-
-    /// The texture containing the indices of tiles within the chunk
-    #[texture(3, sample_type = "u_int")]
-    pub indices: Handle<Image>,
-}
-
-impl Material2d for TilemapChunkMaterial {
-    fn fragment_shader() -> ShaderRef {
-        TILEMAP_CHUNK_MATERIAL_SHADER_HANDLE.into()
-    }
-}
 
 /// Updates the chunks in the tilemap based on changes to tile positions.
 /// This system is responsible for:
@@ -74,18 +38,11 @@ pub(crate) fn update_chunks(
         ),
         With<Tile>,
     >,
-    mut tilemaps_query: Query<(&Tilemap, &mut TilemapChunks, &TilemapTexture), With<TilemapTiles>>,
+    mut tilemaps_query: Query<(&Tilemap, &mut TilemapChunks, &Tileset), With<TilemapTiles>>,
     mut chunks_query: Query<
-        (
-            Entity,
-            &mut Transform,
-            &MeshMaterial2d<TilemapChunkMaterial>,
-        ),
+        (Entity, &mut Transform, &mut TilemapChunkIndices),
         (With<TilemapChunk>, Without<Tile>),
     >,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<TilemapChunkMaterial>>,
-    mut images: ResMut<Assets<Image>>,
 ) {
     let mut tiles_by_chunk: HashMap<(Entity, TilemapChunkPosition), Vec<Entity>> = HashMap::new();
 
@@ -112,79 +69,55 @@ pub(crate) fn update_chunks(
     }
 
     for ((tilemap_entity, tilemap_chunk_position), tiles) in tiles_by_chunk.iter() {
-        let (tilemap, mut tilemap_chunks, TilemapTexture::Atlas(atlas)) =
+        let (tilemap, tilemap_chunks, Tileset(tileset_handle)) =
             tilemaps_query.get_mut(*tilemap_entity).unwrap();
 
-        let indices_image_handle = tilemap_chunks
-            .get(tilemap_chunk_position)
-            .and_then(|chunk_entity| chunks_query.get_mut(*chunk_entity).ok())
-            .and_then(|(_, _, chunk_material)| materials.get_mut(chunk_material))
-            .map(|chunk_material| chunk_material.indices.clone())
-            .unwrap_or_else(|| {
-                images.add(Image::new_fill(
-                    Extent3d {
-                        width: tilemap.chunk_size,
-                        height: tilemap.chunk_size,
-                        depth_or_array_layers: 1,
+        if let Some(chunk_entity) = tilemap_chunks.get(tilemap_chunk_position) {
+            let (_, _, mut indices) = chunks_query.get_mut(*chunk_entity).unwrap();
+            for (_, _, _, tile_position, tile_texture_index) in
+                tiles.iter().map(|entity| tiles_query.get(*entity).unwrap())
+            {
+                indices[tile_position.index_in_chunk(tilemap.chunk_size)] =
+                    Some(tile_texture_index.0);
+            }
+
+            commands.entity(*chunk_entity).add_children(tiles);
+        } else {
+            let mut indices: Vec<Option<u32>> =
+                vec![None; (tilemap.chunk_size * tilemap.chunk_size) as usize];
+            for (_, _, _, tile_position, tile_texture_index) in
+                tiles.iter().map(|entity| tiles_query.get(*entity).unwrap())
+            {
+                indices[tile_position.index_in_chunk(tilemap.chunk_size)] =
+                    Some(tile_texture_index.0);
+            }
+
+            let chunk_size_px = (tilemap.chunk_size * tilemap.tile_size) as i32;
+
+            commands
+                .spawn((
+                    TilemapChunk {
+                        chunk_size: UVec2::splat(tilemap.chunk_size),
+                        tile_display_size: UVec2::splat(tilemap.tile_size),
+                        tileset: tileset_handle.clone(),
                     },
-                    TextureDimension::D2,
-                    &[0, 0, 0, 0],
-                    TextureFormat::R32Uint,
-                    RenderAssetUsages::default(),
+                    TilemapChunkIndices(indices),
+                    *tilemap_chunk_position,
+                    TilemapChunkOf(*tilemap_entity),
+                    ChildOf(*tilemap_entity),
+                    Name::new(format!(
+                        "TilemapChunk {},{}",
+                        tilemap_chunk_position.x, tilemap_chunk_position.y
+                    )),
+                    Transform::from_xyz(
+                        ((tilemap_chunk_position.x * (chunk_size_px + 1)) + chunk_size_px / 2)
+                            as f32,
+                        ((tilemap_chunk_position.y * (chunk_size_px + 1)) + chunk_size_px / 2)
+                            as f32,
+                        0.0,
+                    ),
                 ))
-            });
-
-        let indices_image = images.get_mut(&indices_image_handle).unwrap();
-
-        for (_, _, _, tile_position, tile_texture_index) in
-            tiles.iter().map(|entity| tiles_query.get(*entity).unwrap())
-        {
-            let tile_position_in_chunk = tile_position
-                .rem_euclid(IVec2::splat(tilemap.chunk_size as i32))
-                .as_uvec2();
-
-            indices_image
-                .pixel_bytes_mut(uvec3(
-                    tile_position_in_chunk.x,
-                    tilemap.chunk_size - 1 - tile_position_in_chunk.y,
-                    0,
-                ))
-                .unwrap()
-                .copy_from_slice(&bytemuck::cast_slice(&[tile_texture_index.0 as u32 + 1]));
+                .add_children(tiles);
         }
-
-        let tilemap_chunk_entity = tilemap_chunks
-            .entry(*tilemap_chunk_position)
-            .or_insert_with(|| {
-                let chunk_size_px = (tilemap.chunk_size * tilemap.tile_size) as i32;
-
-                commands
-                    .spawn((
-                        TilemapChunk,
-                        *tilemap_chunk_position,
-                        TilemapChunkOf(*tilemap_entity),
-                        ChildOf(*tilemap_entity),
-                        Name::new(format!(
-                            "TilemapChunk {},{}",
-                            tilemap_chunk_position.x, tilemap_chunk_position.y
-                        )),
-                        Transform::from_xyz(
-                            ((tilemap_chunk_position.x * chunk_size_px) + chunk_size_px / 2) as f32,
-                            ((tilemap_chunk_position.y * chunk_size_px) + chunk_size_px / 2) as f32,
-                            0.0,
-                        ),
-                        Mesh2d(meshes.add(Rectangle::from_size(Vec2::splat(
-                            (tilemap.chunk_size * tilemap.tile_size) as f32,
-                        )))),
-                        MeshMaterial2d(materials.add(TilemapChunkMaterial {
-                            tile_size: tilemap.tile_size,
-                            atlas: Some(atlas.clone()),
-                            indices: indices_image_handle.clone(),
-                        })),
-                    ))
-                    .id()
-            });
-
-        commands.entity(*tilemap_chunk_entity).add_children(tiles);
     }
 }
