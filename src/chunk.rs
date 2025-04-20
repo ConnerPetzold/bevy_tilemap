@@ -5,7 +5,8 @@ use bevy::{
 };
 
 use crate::{
-    Tile, TileOf, TilePosition, TileTextureIndex, Tilemap, TilemapChunks, TilemapTiles, Tileset,
+    Tile, TileDirty, TileOf, TilePosition, TilePositioning, TileTextureIndex, Tilemap,
+    TilemapChunks, Tileset,
 };
 
 /// Stores the tilemap entity that the chunk belongs to
@@ -33,12 +34,12 @@ pub(crate) fn update_chunks(
             Entity,
             &mut Transform,
             &TileOf,
-            Ref<TilePosition>,
+            &TilePosition,
             &TileTextureIndex,
         ),
-        With<Tile>,
+        (With<Tile>, With<TileDirty>),
     >,
-    mut tilemaps_query: Query<(&Tilemap, &mut TilemapChunks, &Tileset), With<TilemapTiles>>,
+    mut tilemaps_query: Query<(&Tilemap, &mut TilemapChunks, &Tileset)>,
     mut chunks_query: Query<
         (Entity, &mut Transform, &mut TilemapChunkIndices),
         (With<TilemapChunk>, Without<Tile>),
@@ -49,10 +50,6 @@ pub(crate) fn update_chunks(
     for (tile_entity, mut tile_transform, &TileOf(tilemap_entity), tile_position, _) in
         tiles_query.iter_mut()
     {
-        if !tile_position.is_changed() {
-            continue;
-        }
-
         let (tilemap, _, _) = tilemaps_query.get_mut(tilemap_entity).unwrap();
 
         let tilemap_chunk_position = tile_position.chunk_position(tilemap.chunk_size);
@@ -66,6 +63,8 @@ pub(crate) fn update_chunks(
             .rem_euclid(IVec2::splat(tilemap.chunk_size as i32))
             .extend(0)
             .as_vec3();
+
+        commands.entity(tile_entity).remove::<TileDirty>();
     }
 
     for ((tilemap_entity, tilemap_chunk_position), tiles) in tiles_by_chunk.iter() {
@@ -110,10 +109,8 @@ pub(crate) fn update_chunks(
                         tilemap_chunk_position.x, tilemap_chunk_position.y
                     )),
                     Transform::from_xyz(
-                        ((tilemap_chunk_position.x * (chunk_size_px + 1)) + chunk_size_px / 2)
-                            as f32,
-                        ((tilemap_chunk_position.y * (chunk_size_px + 1)) + chunk_size_px / 2)
-                            as f32,
+                        ((tilemap_chunk_position.x * chunk_size_px) + chunk_size_px / 2) as f32,
+                        ((tilemap_chunk_position.y * chunk_size_px) + chunk_size_px / 2) as f32,
                         0.0,
                     ),
                 ))

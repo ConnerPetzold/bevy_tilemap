@@ -20,8 +20,7 @@ pub struct TilemapPlugin;
 
 impl Plugin for TilemapPlugin {
     fn build(&self, app: &mut App) {
-        app.init_asset_loader::<TilesetImageLoader>()
-            .init_asset::<TilesetImage>()
+        app.init_asset_loader::<TilesetLoader>()
             .register_type::<TileOf>()
             .register_type::<Tilemap>()
             .register_type::<TilemapTiles>()

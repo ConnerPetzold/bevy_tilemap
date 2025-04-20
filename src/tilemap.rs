@@ -66,9 +66,3 @@ pub struct TilemapChunks {
     #[deref]
     lookup: HashMap<TilemapChunkPosition, Entity>,
 }
-
-/// Defines the tileset used by a tilemap.
-/// Must be an array image where the dimensions are the tile dimensions.
-#[derive(Component, Clone, Debug, Default, Reflect)]
-#[reflect(Component)]
-pub struct Tileset(pub Handle<Image>);

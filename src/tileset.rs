@@ -1,26 +1,41 @@
+use std::convert::Infallible;
+
 use bevy::{
-    asset::{AssetLoader, LoadContext, RenderAssetUsages, io::Reader},
-    image::{ImageLoader, TextureFormatPixelInfo},
+    asset::{
+        AssetLoader, LoadContext, RenderAssetUsages,
+        io::{Reader, Writer},
+        saver::{AssetSaver, SavedAsset},
+        transformer::{AssetTransformer, TransformedAsset},
+    },
+    image::TextureFormatPixelInfo,
     prelude::*,
     render::render_resource::{Extent3d, TextureDimension},
 };
+use glob::{MatchOptions, glob, glob_with};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-/// A tileset image is an image that contains a grid of tiles.
-#[derive(Asset, TypePath, Debug, Deref, DerefMut)]
-pub struct TilesetImage(pub Image);
+/// Defines the tileset used by a tilemap.
+/// Must be an array image where the dimensions are the tile dimensions.
+#[derive(Component, Clone, Debug, Default, Reflect)]
+#[reflect(Component)]
+pub struct Tileset(pub Handle<Image>);
+
+#[derive(Serialize, Deserialize, Debug)]
+struct TilesetDefinition {
+    tiles: TilesDefinition,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+enum TilesDefinition {
+    Glob(String),
+    Paths(Vec<String>),
+    Atlas { image: String, tile_size: UVec2 },
+}
 
 /// A loader for tileset images.
 #[derive(Default)]
-pub struct TilesetImageLoader;
-
-/// Settings for a tileset image.
-#[derive(Clone, Default, Serialize, Deserialize)]
-pub struct TilesetImageSettings {
-    /// The size of each tile in the tileset.
-    pub tile_size: UVec2,
-}
+pub struct TilesetLoader;
 
 /// Errors that can occur when loading a tileset image.
 #[derive(Debug, Error)]
@@ -28,39 +43,151 @@ pub enum TilesetLoaderError {
     /// An error occurred while reading the file.
     #[error(transparent)]
     Io(#[from] std::io::Error),
+    /// An error occurred while parsing the RON file.
+    #[error(transparent)]
+    RonSpannedError(#[from] ron::error::SpannedError),
     /// An error occurred while loading the image.
     #[error(transparent)]
     LoadDirectError(#[from] bevy::asset::LoadDirectError),
 }
 
-impl AssetLoader for TilesetImageLoader {
-    type Asset = TilesetImage;
-    type Settings = TilesetImageSettings;
+impl AssetLoader for TilesetLoader {
+    type Asset = Image;
+    type Settings = ();
     type Error = TilesetLoaderError;
     async fn load(
         &self,
         reader: &mut dyn Reader,
-        settings: &Self::Settings,
+        _: &Self::Settings,
         load_context: &mut LoadContext<'_>,
     ) -> Result<Self::Asset, Self::Error> {
-        let path = load_context.asset_path().clone_owned();
-        let image = load_context
-            .loader()
-            .immediate()
-            .with_reader(reader)
-            .load::<Image>(path)
-            .await?
-            .take();
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).await?;
+        let definition: TilesetDefinition = ron::de::from_bytes(&bytes)?;
 
-        Ok(TilesetImage(convert_atlas_to_array(
-            &image,
-            settings.tile_size,
-        )))
+        let texture_image = match definition.tiles {
+            TilesDefinition::Glob(glob_string) => {
+                // TODO(cp): Don't hardcode assets path -- figure out how to get it from the AssetPlugin
+                let mut images = Vec::new();
+                for path in
+                    glob(&format!("./assets/{}", glob_string)).expect("Failed to read glob pattern")
+                {
+                    let Ok(path) = path else {
+                        continue;
+                    };
+                    let path = path.strip_prefix("assets/").unwrap();
+
+                    let image = load_context
+                        .loader()
+                        .immediate()
+                        .load::<Image>(path)
+                        .await?
+                        .take();
+
+                    images.push(image);
+                }
+                convert_images_to_array(images)
+            }
+            TilesDefinition::Paths(paths) => {
+                let mut images = Vec::new();
+                for path in paths {
+                    let image = load_context
+                        .loader()
+                        .immediate()
+                        .load::<Image>(path)
+                        .await?
+                        .take();
+                    images.push(image);
+                }
+                convert_images_to_array(images)
+            }
+            TilesDefinition::Atlas { image, tile_size } => {
+                let image = load_context
+                    .loader()
+                    .immediate()
+                    .load::<Image>(image)
+                    .await?
+                    .take();
+
+                convert_atlas_to_array(&image, tile_size)
+            }
+        };
+
+        Ok(texture_image)
     }
 
     fn extensions(&self) -> &[&str] {
-        ImageLoader::SUPPORTED_FILE_EXTENSIONS
+        &[".tileset.ron"]
     }
+}
+
+/// A transformer for tileset images.
+#[derive(Default)]
+pub struct TilesetTransformer;
+
+impl AssetTransformer for TilesetTransformer {
+    type AssetInput = Image;
+    type AssetOutput = Image;
+    type Settings = ();
+    type Error = Infallible;
+
+    async fn transform<'a>(
+        &'a self,
+        asset: TransformedAsset<Self::AssetInput>,
+        _: &'a Self::Settings,
+    ) -> Result<TransformedAsset<Self::AssetOutput>, Self::Error> {
+        Ok(asset)
+    }
+}
+
+/// A saver for tileset images.
+#[derive(Default)]
+pub struct TilesetSaver;
+
+impl AssetSaver for TilesetSaver {
+    type Asset = Image;
+    type Settings = ();
+    type OutputLoader = TilesetLoader;
+    type Error = std::io::Error;
+
+    async fn save(
+        &self,
+        _writer: &mut Writer,
+        _asset: SavedAsset<'_, Self::Asset>,
+        _settings: &Self::Settings,
+    ) -> Result<(), Self::Error> {
+        // writer.write_all(asset.as_bytes()).await?;
+        Ok(())
+    }
+}
+
+fn convert_images_to_array(images: Vec<Image>) -> Image {
+    let mut array_data = Vec::new();
+
+    let num_layers = images.len();
+    assert!(
+        num_layers > 0,
+        "Must provide at least one image for a tileset"
+    );
+
+    let tile_size = images[0].size();
+    let format = images[0].texture_descriptor.format;
+
+    for image in images {
+        array_data.extend_from_slice(&image.data.as_ref().unwrap());
+    }
+
+    Image::new(
+        Extent3d {
+            width: tile_size.x,
+            height: tile_size.y,
+            depth_or_array_layers: num_layers as u32,
+        },
+        TextureDimension::D2,
+        array_data,
+        format,
+        RenderAssetUsages::default(),
+    )
 }
 
 fn convert_atlas_to_array(atlas: &Image, tile_size: UVec2) -> Image {
