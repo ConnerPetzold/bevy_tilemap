@@ -82,7 +82,7 @@ pub(crate) fn update_chunks(
 
             commands.entity(*chunk_entity).add_children(tiles);
         } else {
-            let mut indices: Vec<Option<u32>> =
+            let mut indices: Vec<Option<u16>> =
                 vec![None; (tilemap.chunk_size * tilemap.chunk_size) as usize];
             for (_, _, _, tile_position, tile_texture_index) in
                 tiles.iter().map(|entity| tiles_query.get(*entity).unwrap())
@@ -99,6 +99,7 @@ pub(crate) fn update_chunks(
                         chunk_size: UVec2::splat(tilemap.chunk_size),
                         tile_display_size: UVec2::splat(tilemap.tile_size),
                         tileset: tileset_handle.clone(),
+                        ..default()
                     },
                     TilemapChunkIndices(indices),
                     *tilemap_chunk_position,

@@ -11,7 +11,7 @@ use bevy::{
     prelude::*,
     render::render_resource::{Extent3d, TextureDimension},
 };
-use glob::{MatchOptions, glob, glob_with};
+use glob::glob;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 

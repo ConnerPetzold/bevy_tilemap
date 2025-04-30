@@ -14,7 +14,7 @@ pub struct Tile;
 /// The index corresponds to the position in the tilemap's texture atlas.
 #[derive(Component, Clone, Debug, Default, Deref, DerefMut, Reflect)]
 #[reflect(Component)]
-pub struct TileTextureIndex(pub u32);
+pub struct TileTextureIndex(pub u16);
 
 /// Trait for types that can be used as a tile position.
 pub trait TilePositioning: std::ops::Deref<Target = IVec2> {
