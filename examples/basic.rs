@@ -2,6 +2,7 @@ use bevy::{
     dev_tools::fps_overlay::FpsOverlayPlugin,
     prelude::*,
     remote::{RemotePlugin, http::RemoteHttpPlugin},
+    sprite::{TileData, TileStorage, Tilemap, Tileset},
 };
 use bevy_pancam::{PanCam, PanCamPlugin};
 use bevy_tilemap::prelude::*;
@@ -29,12 +30,16 @@ fn main() {
 }
 
 fn startup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let map_size = IVec2::new(1280, 1280);
+    let map_size = IVec2::splat(1280);
 
     commands
         .spawn((
-            Tilemap::from_tile_size(8),
-            Tileset(asset_server.load("glob.tileset.ron")),
+            Tilemap::default(),
+            TilemapTiles::default(),
+            Tileset {
+                image: asset_server.load("atlas_packed.tileset.ron"),
+                tile_size: UVec2::splat(8),
+            },
         ))
         .with_related_entities::<TileOf>(|t| {
             for x in 0..map_size.x {

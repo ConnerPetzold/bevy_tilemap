@@ -15,12 +15,6 @@ use glob::glob;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-/// Defines the tileset used by a tilemap.
-/// Must be an array image where the dimensions are the tile dimensions.
-#[derive(Component, Clone, Debug, Default, Reflect)]
-#[reflect(Component)]
-pub struct Tileset(pub Handle<Image>);
-
 #[derive(Serialize, Deserialize, Debug)]
 struct TilesetDefinition {
     tiles: TilesDefinition,
