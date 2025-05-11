@@ -3,7 +3,6 @@
 
 use bevy::{
     ecs::{component::HookContext, world::DeferredWorld},
-    platform::collections::HashMap,
     prelude::*,
     sprite::{TileData, TileStorage, Tileset},
 };
@@ -102,7 +101,7 @@ fn sync_tiles(
 ) {
     for (tile_entity, tile_of, tile_position, tile_texture_index) in &mut tiles_query {
         commands.entity(tile_entity).remove::<TileDirty>();
-        let Ok((mut tile_storage, tileset)) = tile_storage_query.get_mut(**tile_of) else {
+        let Ok((mut tile_storage, _tileset)) = tile_storage_query.get_mut(**tile_of) else {
             continue;
         };
 

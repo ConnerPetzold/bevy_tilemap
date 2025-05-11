@@ -2,7 +2,7 @@ use bevy::{
     dev_tools::fps_overlay::FpsOverlayPlugin,
     prelude::*,
     remote::{RemotePlugin, http::RemoteHttpPlugin},
-    sprite::{TileData, TileStorage, Tilemap, Tileset},
+    sprite::{Tilemap, Tileset},
 };
 use bevy_pancam::{PanCam, PanCamPlugin};
 use bevy_tilemap::prelude::*;
