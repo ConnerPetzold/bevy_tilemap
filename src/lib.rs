@@ -67,11 +67,6 @@ impl TilePosition {
 #[reflect(Component)]
 pub struct OldTilePosition(pub IVec2);
 
-/// Marker component for tiles that need to be re-rendered.
-#[derive(Component, Clone, Debug, Default, Reflect)]
-#[reflect(Component)]
-pub struct TileDirty;
-
 /// Stores the tilemap entity that this tile belongs to.
 #[derive(Component, Clone, Debug, Deref, DerefMut, Reflect)]
 #[require(
@@ -94,26 +89,25 @@ fn on_add_tile_of(mut world: DeferredWorld, HookContext { entity, .. }: HookCont
     world.commands().entity(entity).insert((
         Name::new(format!("Tile {},{}", tile_position.x, tile_position.y)),
         ChildOf(tilemap_entity),
-        TileDirty,
     ));
 }
 
 fn sync_tiles(
-    mut commands: Commands,
     mut tiles_query: Query<
         (
-            Entity,
             // &mut Transform,
             &TileOf,
             &TilePosition,
             &TileTextureIndex,
         ),
-        (With<Tile>, With<TileDirty>),
+        (
+            With<Tile>,
+            Or<(Changed<TilePosition>, Changed<TileTextureIndex>)>,
+        ),
     >,
     mut tile_storage_query: Query<(&mut TileStorage, &Tileset)>,
 ) {
-    for (tile_entity, tile_of, tile_position, tile_texture_index) in &mut tiles_query {
-        commands.entity(tile_entity).remove::<TileDirty>();
+    for (tile_of, tile_position, tile_texture_index) in &mut tiles_query {
         let Ok((mut tile_storage, _tileset)) = tile_storage_query.get_mut(**tile_of) else {
             continue;
         };
