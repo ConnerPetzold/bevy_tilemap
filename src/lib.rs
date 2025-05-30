@@ -48,6 +48,19 @@ pub struct TileTextureIndex(pub u16);
 #[require(OldTilePosition)]
 pub struct TilePosition(pub IVec2);
 
+impl TilePosition {
+    /// Generates the four cardinal neighbors of this position,
+    /// to the north, south, east, and west.
+    pub fn cardinal_neighbors(&self) -> [TilePosition; 4] {
+        [
+            TilePosition(self.0 + IVec2::Y),
+            TilePosition(self.0 - IVec2::Y),
+            TilePosition(self.0 + IVec2::X),
+            TilePosition(self.0 - IVec2::X),
+        ]
+    }
+}
+
 /// When a tile is moved, we need to keep track of its old position so we can
 /// determine if it has moved to a new chunk.
 #[derive(Component, Clone, Copy, Debug, Default, Deref, DerefMut, Reflect)]
