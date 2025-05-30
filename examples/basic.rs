@@ -2,7 +2,7 @@ use bevy::{
     dev_tools::fps_overlay::FpsOverlayPlugin,
     prelude::*,
     remote::{RemotePlugin, http::RemoteHttpPlugin},
-    sprite::{Tilemap, Tileset},
+    sprite::{TilemapLayer, Tileset},
 };
 use bevy_pancam::{PanCam, PanCamPlugin};
 use bevy_tilemap::prelude::*;
@@ -34,7 +34,7 @@ fn startup(mut commands: Commands, asset_server: Res<AssetServer>) {
 
     commands
         .spawn((
-            Tilemap::default(),
+            TilemapLayer::default(),
             TilemapTiles::default(),
             Tileset {
                 image: asset_server.load("atlas_packed.tileset.ron"),
