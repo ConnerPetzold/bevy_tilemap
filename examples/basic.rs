@@ -4,7 +4,7 @@ use bevy::{
     remote::{RemotePlugin, http::RemoteHttpPlugin},
     sprite::{TilemapLayer, Tileset},
 };
-use bevy_pancam::{PanCam, PanCamPlugin};
+// use bevy_pancam::{PanCam, PanCamPlugin};
 use bevy_tilemap::prelude::*;
 
 fn main() {
@@ -23,7 +23,7 @@ fn main() {
         .add_plugins(FpsOverlayPlugin::default())
         .add_plugins(RemotePlugin::default())
         .add_plugins(RemoteHttpPlugin::default())
-        .add_plugins(PanCamPlugin)
+        // .add_plugins(PanCamPlugin)
         .add_plugins(TilemapPlugin)
         .add_systems(Startup, startup)
         .run();
@@ -54,7 +54,7 @@ fn startup(mut commands: Commands, asset_server: Res<AssetServer>) {
 
     commands.spawn((
         Camera2d,
-        PanCam::default(),
+        // PanCam::default(),
         Projection::Orthographic(OrthographicProjection {
             scale: 0.25,
             ..OrthographicProjection::default_2d()

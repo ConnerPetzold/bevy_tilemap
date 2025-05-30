@@ -5,7 +5,7 @@ edition = "2024"
 rust-version = "1.85.0"
 
 [dependencies]
-bevy = { git = "https://github.com/ConnerPetzold/bevy", branch = "tilemap-rendering", default-features = false, features = [
+bevy = { git = "https://github.com/ConnerPetzold/bevy", branch = "cellular-automata-demo", default-features = false, features = [
   "bevy_core_pipeline",
   "bevy_render",
   "bevy_asset",
@@ -18,12 +18,12 @@ serde = "1.0.219"
 thiserror = "2.0.12"
 
 [dev-dependencies]
-bevy = { git = "https://github.com/ConnerPetzold/bevy", branch = "tilemap-rendering", features = [
+bevy = { git = "https://github.com/ConnerPetzold/bevy", branch = "cellular-automata-demo", features = [
   "bevy_remote",
   "bevy_dev_tools",
   "basis-universal",
 ] }
-bevy_pancam = { git = "https://github.com/ConnerPetzold/bevy_pancam", branch = "tilemap-rendering" }
+# bevy_pancam = { git = "https://github.com/ConnerPetzold/bevy_pancam", branch = "tilemap-rendering" }
 rand = "0.9.0"
 
 [[example]]

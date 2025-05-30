@@ -4,9 +4,9 @@ version = 4
 
 [[package]]
 name = "accesskit"
-version = "0.18.0"
+version = "0.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "becf0eb5215b6ecb0a739c31c21bd83c4f326524c9b46b7e882d77559b60a529"
+checksum = "e25ae84c0260bdf5df07796d7cc4882460de26a2b406ec0e6c42461a723b271b"
 dependencies = [
  "enumn",
  "serde",
@@ -14,20 +14,19 @@ dependencies = [
 
 [[package]]
 name = "accesskit_consumer"
-version = "0.27.0"
+version = "0.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d0bf66a7bf0b7ea4fd7742d50b64782a88f99217cf246b3f93b4162528dde520"
+checksum = "8bfae7c152994a31dc7d99b8eeac7784a919f71d1b306f4b83217e110fd3824c"
 dependencies = [
  "accesskit",
  "hashbrown",
- "immutable-chunkmap",
 ]
 
 [[package]]
 name = "accesskit_macos"
-version = "0.19.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "09e230718177753b4e4ad9e1d9f6cfc2f4921212d4c1c480b253f526babb258d"
+checksum = "692dd318ff8a7a0ffda67271c4bd10cf32249656f4e49390db0b26ca92b095f2"
 dependencies = [
  "accesskit",
  "accesskit_consumer",
@@ -39,24 +38,23 @@ dependencies = [
 
 [[package]]
 name = "accesskit_windows"
-version = "0.25.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "65178f3df98a51e4238e584fcb255cb1a4f9111820848eeddd37663be40a625f"
+checksum = "70a042b62c9c05bf7b616f015515c17d2813f3ba89978d6f4fc369735d60700a"
 dependencies = [
  "accesskit",
  "accesskit_consumer",
  "hashbrown",
- "paste",
  "static_assertions",
- "windows 0.58.0",
- "windows-core 0.58.0",
+ "windows 0.61.1",
+ "windows-core 0.61.2",
 ]
 
 [[package]]
 name = "accesskit_winit"
-version = "0.25.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "34d941bb8c414caba6e206de669c7dc0dbeb305640ea890772ee422a40e6b89f"
+checksum = "5c1f0d3d13113d8857542a4f8d1a1c24d1dc1527b77aee8426127f4901588708"
 dependencies = [
  "accesskit",
  "accesskit_macos",
@@ -367,16 +365,16 @@ dependencies = [
 
 [[package]]
 name = "bevy"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_internal",
 ]
 
 [[package]]
 name = "bevy_a11y"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "accesskit",
  "bevy_app",
@@ -388,8 +386,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_animation"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -421,8 +419,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_anti_aliasing"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -440,8 +438,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_app"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_derive",
  "bevy_ecs",
@@ -462,8 +460,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_asset"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "async-broadcast",
  "async-fs",
@@ -501,8 +499,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_asset_macros"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
@@ -512,8 +510,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_audio"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -529,8 +527,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_color"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_math",
  "bevy_reflect",
@@ -544,8 +542,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_core_pipeline"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -573,8 +571,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_derive"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_macro_utils",
  "quote",
@@ -583,8 +581,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_dev_tools"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -606,8 +604,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_diagnostic"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_ecs",
@@ -623,8 +621,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_ecs"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "arrayvec",
  "bevy_ecs_macros",
@@ -650,8 +648,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_ecs_macros"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
@@ -661,8 +659,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_encase_derive"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_macro_utils",
  "encase_derive_impl",
@@ -670,8 +668,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_gilrs"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_ecs",
@@ -686,8 +684,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_gizmos"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -710,8 +708,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_gizmos_macros"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
@@ -721,8 +719,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_gltf"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "base64 0.22.1",
  "bevy_animation",
@@ -755,13 +753,14 @@ dependencies = [
 
 [[package]]
 name = "bevy_image"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "basis-universal",
  "bevy_app",
  "bevy_asset",
  "bevy_color",
+ "bevy_ecs",
  "bevy_math",
  "bevy_platform",
  "bevy_reflect",
@@ -783,8 +782,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_input"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_ecs",
@@ -801,8 +800,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_input_focus"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_ecs",
@@ -816,8 +815,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_internal"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_a11y",
  "bevy_animation",
@@ -861,12 +860,13 @@ dependencies = [
 
 [[package]]
 name = "bevy_log"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "android_log-sys",
  "bevy_app",
  "bevy_ecs",
+ "bevy_platform",
  "bevy_utils",
  "tracing",
  "tracing-log",
@@ -877,8 +877,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_macro_utils"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "parking_lot",
  "proc-macro2",
@@ -889,8 +889,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_math"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "approx",
  "bevy_reflect",
@@ -908,8 +908,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_mesh"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_asset",
  "bevy_derive",
@@ -932,24 +932,16 @@ dependencies = [
 
 [[package]]
 name = "bevy_mikktspace"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "glam",
 ]
 
 [[package]]
-name = "bevy_pancam"
-version = "0.18.0"
-source = "git+https://github.com/ConnerPetzold/bevy_pancam?branch=tilemap-rendering#0640d112a00950a142e9f80f3de341c26fbe7060"
-dependencies = [
- "bevy",
-]
-
-[[package]]
 name = "bevy_pbr"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -981,8 +973,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_picking"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -1005,8 +997,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_platform"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "critical-section",
  "foldhash",
@@ -1021,13 +1013,13 @@ dependencies = [
 
 [[package]]
 name = "bevy_ptr"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 
 [[package]]
 name = "bevy_reflect"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "assert_type_match",
  "bevy_platform",
@@ -1052,8 +1044,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_reflect_derive"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
@@ -1064,8 +1056,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_remote"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "anyhow",
  "async-channel",
@@ -1086,8 +1078,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_render"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "async-channel",
  "bevy_app",
@@ -1124,7 +1116,6 @@ dependencies = [
  "naga_oil",
  "nonmax",
  "offset-allocator",
- "send_wrapper",
  "serde",
  "smallvec",
  "thiserror 2.0.12",
@@ -1137,8 +1128,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_render_macros"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
@@ -1148,8 +1139,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_scene"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -1168,8 +1159,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_sprite"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -1197,8 +1188,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_state"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_ecs",
@@ -1212,8 +1203,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_state_macros"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
@@ -1223,8 +1214,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_tasks"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "async-channel",
  "async-executor",
@@ -1244,8 +1235,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_text"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_asset",
@@ -1276,7 +1267,6 @@ name = "bevy_tilemap"
 version = "0.1.0"
 dependencies = [
  "bevy",
- "bevy_pancam",
  "bytemuck",
  "glob",
  "rand 0.9.0",
@@ -1287,8 +1277,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_time"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_ecs",
@@ -1301,8 +1291,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_transform"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_app",
  "bevy_ecs",
@@ -1318,8 +1308,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_ui"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "accesskit",
  "bevy_a11y",
@@ -1354,17 +1344,18 @@ dependencies = [
 
 [[package]]
 name = "bevy_utils"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "bevy_platform",
+ "send_wrapper",
  "thread_local",
 ]
 
 [[package]]
 name = "bevy_window"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "android-activity",
  "bevy_app",
@@ -1382,8 +1373,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_winit"
-version = "0.16.0-dev"
-source = "git+https://github.com/ConnerPetzold/bevy?branch=tilemap-rendering#655eb5c4aef01614beac0caa33f4252d6419257b"
+version = "0.16.0"
+source = "git+https://github.com/ConnerPetzold/bevy?branch=cellular-automata-demo#17e4a788d4381e191276a4e3acfced90f3bb75e1"
 dependencies = [
  "accesskit",
  "accesskit_winit",
@@ -2278,7 +2269,7 @@ dependencies = [
  "vec_map",
  "wasm-bindgen",
  "web-sys",
- "windows 0.58.0",
+ "windows 0.61.1",
 ]
 
 [[package]]
@@ -2585,15 +2576,6 @@ dependencies = [
  "byteorder-lite",
  "num-traits",
  "png",
-]
-
-[[package]]
-name = "immutable-chunkmap"
-version = "2.0.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "12f97096f508d54f8f8ab8957862eee2ccd628847b6217af1a335e1c44dee578"
-dependencies = [
- "arrayvec",
 ]
 
 [[package]]
@@ -4129,9 +4111,9 @@ dependencies = [
 
 [[package]]
 name = "sysinfo"
-version = "0.35.0"
+version = "0.35.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b897c8ea620e181c7955369a31be5f48d9a9121cb59fd33ecef9ff2a34323422"
+checksum = "79251336d17c72d9762b8b54be4befe38d2db56fbbc0241396d70f173c39d47a"
 dependencies = [
  "libc",
  "memchr",
@@ -4750,7 +4732,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c5ee8f3d025738cb02bad7868bbb5f8a6327501e870bf51f1b455b0a2454a419"
 dependencies = [
  "windows-collections",
- "windows-core 0.61.0",
+ "windows-core 0.61.2",
  "windows-future",
  "windows-link",
  "windows-numerics",
@@ -4762,7 +4744,7 @@ version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3beeceb5e5cfd9eb1d76b381630e82c4241ccd0d27f1a39ed41b2760b255c5e8"
 dependencies = [
- "windows-core 0.61.0",
+ "windows-core 0.61.2",
 ]
 
 [[package]]
@@ -4790,25 +4772,26 @@ dependencies = [
 
 [[package]]
 name = "windows-core"
-version = "0.61.0"
+version = "0.61.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4763c1de310c86d75a878046489e2e5ba02c649d185f21c67d4cf8a56d098980"
+checksum = "c0fdd3ddb90610c7638aa2b3a3ab2904fb9e5cdbecc643ddb3647212781c4ae3"
 dependencies = [
  "windows-implement 0.60.0",
  "windows-interface 0.59.1",
  "windows-link",
- "windows-result 0.3.2",
- "windows-strings 0.4.0",
+ "windows-result 0.3.4",
+ "windows-strings 0.4.2",
 ]
 
 [[package]]
 name = "windows-future"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7a1d6bbefcb7b60acd19828e1bc965da6fcf18a7e39490c5f8be71e54a19ba32"
+checksum = "fc6a41e98427b19fe4b73c550f060b59fa592d7d686537eebf9385621bfbad8e"
 dependencies = [
- "windows-core 0.61.0",
+ "windows-core 0.61.2",
  "windows-link",
+ "windows-threading",
 ]
 
 [[package]]
@@ -4867,7 +4850,7 @@ version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9150af68066c4c5c07ddc0ce30421554771e528bde427614c61038bc2c92c2b1"
 dependencies = [
- "windows-core 0.61.0",
+ "windows-core 0.61.2",
  "windows-link",
 ]
 
@@ -4891,9 +4874,9 @@ dependencies = [
 
 [[package]]
 name = "windows-result"
-version = "0.3.2"
+version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c64fd11a4fd95df68efcfee5f44a294fe71b8bc6a91993e2791938abcc712252"
+checksum = "56f42bd332cc6c8eac5af113fc0c1fd6a8fd2aa08a0119358686e5160d0586c6"
 dependencies = [
  "windows-link",
 ]
@@ -4910,9 +4893,9 @@ dependencies = [
 
 [[package]]
 name = "windows-strings"
-version = "0.4.0"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7a2ba9642430ee452d5a7aa78d72907ebe8cfda358e8cb7918a2050581322f97"
+checksum = "56e6c93f3a0c3b36176cb1327a4958a0353d5d166c2a35cb268ace15e91d3b57"
 dependencies = [
  "windows-link",
 ]
@@ -4988,6 +4971,15 @@ dependencies = [
  "windows_x86_64_gnu 0.52.6",
  "windows_x86_64_gnullvm 0.52.6",
  "windows_x86_64_msvc 0.52.6",
+]
+
+[[package]]
+name = "windows-threading"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b66463ad2e0ea3bbf808b7f1d371311c80e115c0b71d60efc142cafbcfb057a6"
+dependencies = [
+ "windows-link",
 ]
 
 [[package]]
