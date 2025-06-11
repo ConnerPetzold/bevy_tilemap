@@ -1,13 +1,21 @@
-#![deny(missing_docs)]
+// #![deny(missing_docs)]
 #![doc = include_str!("../README.md")]
 
 use bevy::{
     ecs::{component::HookContext, world::DeferredWorld},
+    platform::collections::HashMap,
     prelude::*,
-    sprite::{TileData, TileStorage, Tileset},
+    sprite::AlphaMode2d,
 };
 
+mod storage;
+mod tilemap_chunk;
+mod tilemap_chunk_material;
 mod tileset;
+
+pub use storage::*;
+pub use tilemap_chunk::*;
+pub use tilemap_chunk_material::*;
 pub use tileset::*;
 
 /// A Bevy plugin that provides tilemap functionality.
@@ -17,10 +25,48 @@ pub struct TilemapPlugin;
 
 impl Plugin for TilemapPlugin {
     fn build(&self, app: &mut App) {
-        app.init_asset_loader::<TilesetLoader>()
+        app.add_plugins(TilemapChunkPlugin)
+            .add_plugins(TilemapChunkMaterialPlugin)
+            .init_asset_loader::<TilesetLoader>()
             .register_type::<TileOf>()
             .register_type::<TilemapTiles>()
             .add_systems(PreUpdate, sync_tiles);
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Hash)]
+pub enum TilemapRenderMode {
+    #[default]
+    Orthogonal,
+    Isometric,
+}
+
+#[derive(Component, Clone)]
+#[require(TileStorage, Tileset, Name::new("Tilemap"), Transform, Visibility)]
+pub struct TilemapLayer {
+    pub chunks: HashMap<IVec2, Entity>,
+    pub alpha_mode: AlphaMode2d,
+    pub render_mode: TilemapRenderMode,
+    pub z_index: i32,
+}
+
+impl Default for TilemapLayer {
+    fn default() -> Self {
+        Self {
+            chunks: HashMap::new(),
+            alpha_mode: AlphaMode2d::Blend,
+            render_mode: TilemapRenderMode::default(),
+            z_index: 0,
+        }
+    }
+}
+
+impl TilemapLayer {
+    pub fn isometric() -> Self {
+        Self {
+            render_mode: TilemapRenderMode::Isometric,
+            ..default()
+        }
     }
 }
 

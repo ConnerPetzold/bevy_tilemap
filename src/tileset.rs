@@ -15,6 +15,13 @@ use glob::glob;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
+/// A component representing a tileset image containing all tile textures.
+#[derive(Component, Clone, Debug, Default)]
+pub struct Tileset {
+    pub image: Handle<Image>,
+    pub tile_size: UVec2,
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 struct TilesetDefinition {
     tiles: TilesDefinition,

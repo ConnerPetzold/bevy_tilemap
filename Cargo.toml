@@ -5,30 +5,36 @@ edition = "2024"
 rust-version = "1.85.0"
 
 [dependencies]
-bevy = { git = "https://github.com/ConnerPetzold/bevy", branch = "tilemap-rendering", default-features = false, features = [
+bevy = { version = "0.16", default-features = false, features = [
   "bevy_core_pipeline",
   "bevy_render",
   "bevy_asset",
   "bevy_sprite",
 ] }
 bytemuck = "1.22.0"
+derive_more = { version = "1", default-features = false, features = ["from"] }
 glob = "0.3.2"
 ron = "0.10.1"
 serde = "1.0.219"
 thiserror = "2.0.12"
+tracing = "0.1.41"
 
 [dev-dependencies]
-bevy = { git = "https://github.com/ConnerPetzold/bevy", branch = "tilemap-rendering", features = [
+bevy = { version = "0.16", features = [
   "bevy_remote",
   "bevy_dev_tools",
   "basis-universal",
 ] }
-bevy_pancam = { git = "https://github.com/ConnerPetzold/bevy_pancam", branch = "tilemap-rendering" }
+bevy_pancam = "0.18"
 rand = "0.9.0"
 
 [[example]]
 name = "basic"
 path = "examples/basic.rs"
+
+[[example]]
+name = "isometric"
+path = "examples/isometric.rs"
 
 [package.metadata.docs.rs]
 rustc-args = ["--cfg", "docsrs_dep"]
